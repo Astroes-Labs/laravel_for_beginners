@@ -20,7 +20,7 @@ class AvatarController extends Controller
 
     public function generate()
     {
-        $filename = $this->generateFilename();
+        $filename =  Str::random(25) . '.jpg';
         $path = $this->storeGeneratedAvatar($filename);
 
         return redirect(route('profile.edit'))->with(['message' => 'Avatar is Updated']);
@@ -39,10 +39,7 @@ class AvatarController extends Controller
         return $path;
     }
 
-    private function generateFilename()
-    {
-        return Str::random(25) . '.jpg';
-    }
+   
 
     private function storeGeneratedAvatar($filename)
     {

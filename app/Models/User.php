@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -62,4 +63,16 @@ class User extends Authenticatable
            get: fn($value) => Str::upper($value)
         );
     }//mutator
+
+    protected function isAdmin(): Attribute {
+        $admins = ["admin@gmail.com","admin2@gmail.com"];
+        return Attribute::make(
+            get:fn() => in_array($this->email, $admins)
+        );
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }
